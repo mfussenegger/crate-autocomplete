@@ -1,0 +1,8 @@
+.gradle/
+crate-autocomplete.iml
+crate-autocomplete.ipr
+crate-autocomplete.iws
+sandbox/crate/data/
+libs/
+build/
+out/

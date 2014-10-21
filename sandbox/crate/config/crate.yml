@@ -1,0 +1,7 @@
+node.name: local
+cluster.name: sql-autocomplete-dev-cluster
+
+http.port: 44200
+transport.tcp.port: 44300
+
+multicast.enabled: false
