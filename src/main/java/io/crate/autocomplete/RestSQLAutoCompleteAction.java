@@ -44,10 +44,15 @@ public class RestSQLAutoCompleteAction extends BaseRestHandler {
                                      RestController restController) {
         super(settings, client);
         restController.registerHandler(RestRequest.Method.POST, "_sql_complete", this);
+        restController.registerHandler(RestRequest.Method.HEAD, "_sql_complete", this);
     }
 
     @Override
     protected void handleRequest(final RestRequest request, final RestChannel channel, Client client) throws Exception {
+        if (request.method() == RestRequest.Method.HEAD) {
+            channel.sendResponse(new BytesRestResponse(RestStatus.OK));
+            return;
+        }
         if (!request.hasContent()) {
             channel.sendResponse(new CrateThrowableRestResponse(channel,
                     new SQLActionException("missing request body", 4000, RestStatus.BAD_REQUEST, null)));
