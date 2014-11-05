@@ -46,6 +46,11 @@ public class AutoCompleterTest {
     }
 
     @Test
+    public void testInvalidSyntax() throws Exception {
+        completer.complete("\\dt").get();
+    }
+
+    @Test
     public void testStartKeywordCompletion() throws Exception {
         List<String> completions = Lists.newArrayList(completer.complete("sel").get().completions());
         assertThat(completions.get(0), is("select"));

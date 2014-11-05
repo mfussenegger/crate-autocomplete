@@ -65,12 +65,58 @@ public class AutoCompleter {
         this.dataProvider = dataProvider;
     }
 
+
     public ListenableFuture<CompletionResult> complete(String statement) {
         StatementLexer lexer = getLexer(statement);
+        final Context ctx = new Context(statement.length());
+        List<ListenableFuture<List<String>>> futureCompletions;
+        try {
+            futureCompletions = innerComplete(lexer, statement, ctx);
+        } catch (ParsingException e) {
+            return Futures.immediateFuture(new CompletionResult(0, Collections.<String>emptyList()));
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+            return Futures.immediateFuture(new CompletionResult(0, Collections.<String>emptyList()));
+        }
+
+        final SettableFuture<CompletionResult> result = SettableFuture.create();
+        Futures.addCallback(Futures.allAsList(futureCompletions), new FutureCallback<List<List<String>>>() {
+            @Override
+            public void onSuccess(@Nullable List<List<String>> completionsList) {
+                if (completionsList == null) {
+                    result.set(new CompletionResult(0, ImmutableList.<String>of()));
+                    return;
+                }
+                if (ctx.parts.size() > 1) {
+                    Set<String> fullyQualifiedCompletions = new TreeSet<>();
+                    for (List<String> completions : completionsList) {
+                        for (String completion : completions) {
+                            ctx.parts.set(ctx.parts.size() - 1, completion);
+                            fullyQualifiedCompletions.add(dotJoiner.join(ctx.parts));
+                        }
+                    }
+                    result.set(new CompletionResult(ctx.startIdx, fullyQualifiedCompletions));
+                } else {
+                    Set<String> uniqueSortedCompletions = new TreeSet<>();
+                    for (List<String> completions : completionsList) {
+                        uniqueSortedCompletions.addAll(completions);
+                    }
+                    result.set(new CompletionResult(ctx.startIdx, uniqueSortedCompletions));
+                }
+            }
+
+            @Override
+            public void onFailure(@Nonnull Throwable t) {
+                result.setException(t);
+            }
+        });
+        return result;
+    }
+
+    private List<ListenableFuture<List<String>>> innerComplete(StatementLexer lexer, String statement, Context ctx) {
+        List<ListenableFuture<List<String>>> futureCompletions = new ArrayList<>();
         Token token;
         Token nextToken = null;
-        List<ListenableFuture<List<String>>> futureCompletions = new ArrayList<>();
-        final Context ctx = new Context(statement.length());
 
         while (true) {
             if (nextToken == null) {
@@ -197,38 +243,7 @@ public class AutoCompleter {
             logger.trace("Token: %s", token);
         }
 
-        final SettableFuture<CompletionResult> result = SettableFuture.create();
-        Futures.addCallback(Futures.allAsList(futureCompletions), new FutureCallback<List<List<String>>>() {
-            @Override
-            public void onSuccess(@Nullable List<List<String>> completionsList) {
-                if (completionsList == null) {
-                    result.set(new CompletionResult(0, ImmutableList.<String>of()));
-                    return;
-                }
-                if (ctx.parts.size() > 1) {
-                    Set<String> fullyQualifiedCompletions = new TreeSet<>();
-                    for (List<String> completions : completionsList) {
-                        for (String completion : completions) {
-                            ctx.parts.set(ctx.parts.size() - 1, completion);
-                            fullyQualifiedCompletions.add(dotJoiner.join(ctx.parts));
-                        }
-                    }
-                    result.set(new CompletionResult(ctx.startIdx, fullyQualifiedCompletions));
-                } else {
-                    Set<String> uniqueSortedCompletions = new TreeSet<>();
-                    for (List<String> completions : completionsList) {
-                        uniqueSortedCompletions.addAll(completions);
-                    }
-                    result.set(new CompletionResult(ctx.startIdx, uniqueSortedCompletions));
-                }
-            }
-
-            @Override
-            public void onFailure(@Nonnull Throwable t) {
-                result.setException(t);
-            }
-        });
-        return result;
+        return futureCompletions;
     }
 
     private List<ListenableFuture<List<String>>> getCompletions(Context ctx, String tokenText) {
