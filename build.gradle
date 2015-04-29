@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    compile files('libs/crate-app.jar')
+    compile 'io.crate:crate:0.48.3'
     testCompile 'junit:junit:4.11'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
 }

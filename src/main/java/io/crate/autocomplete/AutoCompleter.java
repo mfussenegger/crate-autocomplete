@@ -171,8 +171,8 @@ public class AutoCompleter {
                     }
                     ctx.parts.clear();
                     break;
-                case StatementLexer.T__276:
-                    assert tokenText.equals(".") : "T_276 token must be a \".\"";
+                case StatementLexer.T__281:
+                    assert tokenText.equals(".") : "T_281 token must be a \".\"";
                     if (ctx.schema == null) {
                         ctx.schema = ctx.previousIdent;
                     }
@@ -183,8 +183,8 @@ public class AutoCompleter {
                         futureCompletions.addAll(getCompletions(ctx, ""));
                     }
                     break;
-                case StatementLexer.T__279:
-                    assert tokenText.equals("[") : "T_279 token must be a \"[\"";
+                case StatementLexer.T__284:
+                    assert tokenText.equals("[") : "T_284 token must be a \"[\"";
                     ctx.visitedOpeningSquareBracket = true;
                     tokenText = ctx.previousIdent + tokenText;
                     if (lastToken) {
@@ -193,8 +193,8 @@ public class AutoCompleter {
                         ctx.previousIdent = tokenText;
                     }
                     break;
-                case StatementLexer.T__280:
-                    assert tokenText.equals("]") : "T__280 token must be a \"]\"";
+                case StatementLexer.T__285:
+                    assert tokenText.equals("]") : "T__285 token must be a \"]\"";
                     ctx.visitedOpeningSquareBracket = false;
                     tokenText = ctx.previousIdent + "'" + tokenText;
                     if (lastToken) {

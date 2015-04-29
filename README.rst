@@ -7,19 +7,22 @@ This is a plugin for `Crate <https://crate.io>`_ (`Github Link
 provides auto-complete functionality for SQL statements.
 
 
-Requirements
-============
+Compatibility
+=============
 
-Crate 0.45.X (will probably work with newer versions too)
+Crate 0.48.X
 
 Installation
 ============
 
-Change to the folder where crate is installed and use ``bin/plugin`` to install the plugin::
+Download the jar and put it into the ``plugins`` folder in your crate installation::
 
-    bin/plugin -u http://dl.bintray.com/mfussenegger/maven/crate-autocomplete.jar -i mfussenegger/crate-autocomplete
+    curl http://dl.bintray.com/mfussenegger/maven/crate-autocomplete.jar -o /path/to/crate/plugins/crate-autocomplete.jar
 
 And restart crate.
+
+Remember to make sure that the user the Crate process is running under needs to
+have read permission on the jar file in order to be able to load the plugin.
 
 Usage
 =====
@@ -33,14 +36,9 @@ statement the completions start::
 
     curl -XPOST localhost:4200/_sql_complete -d '{"stmt": "select n"}'
 
-
 Development
 ===========
 
+Run ``./gradlew idea`` to generate the IntelliJ project files and start development.
 
-Development currently depends on a jar file of Crate. This Jar file isn't
-available online yet but can be built by cloning the `crate
-<https://github.com/crate/crate>`_ repository and running ``./gradlew fatJar``
-
-Then copy the jar from ``<crate-folder>/app/build/libs/crate-app.jar`` to
-``<crate-autocomplete-folder>/libs/`` and run ``./gradlew idea``
+In order to generate the jar file, run ``./gradlew jar``.

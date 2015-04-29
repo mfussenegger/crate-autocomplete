@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import io.crate.action.sql.TransportSQLAction;
 import io.crate.executor.transport.ResponseForwarder;
 import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.support.ActionFilters;
 import org.elasticsearch.action.support.TransportAction;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.Provider;
@@ -47,8 +48,9 @@ public class TransportSQLAutoCompleteAction extends TransportAction<SQLAutoCompl
     public TransportSQLAutoCompleteAction(Settings settings,
                                           Provider<TransportSQLAction> transportSQLAction,
                                           TransportService transportService,
-                                          ThreadPool threadPool) {
-        super(settings, SQLAutoCompleteAction.NAME, threadPool);
+                                          ThreadPool threadPool,
+                                          ActionFilters actionFilters) {
+        super(settings, SQLAutoCompleteAction.NAME, threadPool, actionFilters);
         this.autoCompleter = new AutoCompleter(new InformationSchemaDataProvider(transportSQLAction));
         transportService.registerHandler(SQLAutoCompleteAction.NAME, new TransportHandler());
     }

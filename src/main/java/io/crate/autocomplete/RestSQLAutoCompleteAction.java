@@ -42,7 +42,7 @@ public class RestSQLAutoCompleteAction extends BaseRestHandler {
     public RestSQLAutoCompleteAction(Settings settings,
                                      Client client,
                                      RestController restController) {
-        super(settings, client);
+        super(settings, restController, client);
         restController.registerHandler(RestRequest.Method.POST, "_sql_complete", this);
         restController.registerHandler(RestRequest.Method.HEAD, "_sql_complete", this);
     }
