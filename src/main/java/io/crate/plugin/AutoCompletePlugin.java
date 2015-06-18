@@ -1,10 +1,10 @@
 package io.crate.plugin;
 
+
 import io.crate.autocomplete.RestSQLAutoCompleteAction;
 import io.crate.autocomplete.SQLAutoCompleteAction;
 import io.crate.autocomplete.TransportSQLAutoCompleteAction;
 import org.elasticsearch.action.ActionModule;
-import org.elasticsearch.plugins.AbstractPlugin;
 import org.elasticsearch.rest.RestModule;
 
 public class AutoCompletePlugin extends AbstractPlugin {
