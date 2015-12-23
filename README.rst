@@ -10,7 +10,9 @@ provides auto-complete functionality for SQL statements.
 Compatibility
 =============
 
-Crate 0.48.X
+Current master is compatible with Crate 0.54.X
+
+The last release on bintray (see below) is compatible with Crate 0.48.X
 
 Installation
 ============

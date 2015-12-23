@@ -171,7 +171,7 @@ public class AutoCompleter {
                     }
                     ctx.parts.clear();
                     break;
-                case StatementLexer.T__281:
+                case StatementLexer.T__297:
                     assert tokenText.equals(".") : "T_281 token must be a \".\"";
                     if (ctx.schema == null) {
                         ctx.schema = ctx.previousIdent;
@@ -183,7 +183,7 @@ public class AutoCompleter {
                         futureCompletions.addAll(getCompletions(ctx, ""));
                     }
                     break;
-                case StatementLexer.T__284:
+                case StatementLexer.T__300:
                     assert tokenText.equals("[") : "T_284 token must be a \"[\"";
                     ctx.visitedOpeningSquareBracket = true;
                     tokenText = ctx.previousIdent + tokenText;
@@ -193,7 +193,7 @@ public class AutoCompleter {
                         ctx.previousIdent = tokenText;
                     }
                     break;
-                case StatementLexer.T__285:
+                case StatementLexer.T__301:
                     assert tokenText.equals("]") : "T__285 token must be a \"]\"";
                     ctx.visitedOpeningSquareBracket = false;
                     tokenText = ctx.previousIdent + "'" + tokenText;
