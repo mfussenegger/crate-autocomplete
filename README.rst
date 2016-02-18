@@ -10,16 +10,21 @@ provides auto-complete functionality for SQL statements.
 Compatibility
 =============
 
-Current master is compatible with Crate 0.54.X
-
-The last release on bintray (see below) is compatible with Crate 0.48.X
++---------------+----------------+
+| Crate Version | Plugin Version |
++===============+================+
+|        0.54.X |          0.1.0 |
++---------------+----------------+
 
 Installation
 ============
 
-Download the jar and put it into the ``plugins`` folder in your crate installation::
+Releases are available via `JitPack
+<https://jitpack.io/#mfussenegger/crate-autocomplete/`_.
 
-    curl http://dl.bintray.com/mfussenegger/maven/crate-autocomplete.jar -o /path/to/crate/plugins/crate-autocomplete.jar
+Download the JAR and put it into the ``plugins`` folder in your crate installation::
+
+    curl https://jitpack.io/com/github/mfussenegger/crate-autocomplete/0.1.0/crate-autocomplete-0.1.0.jar -o /path/to/crate/plugins/crate-autocomplete.jar
 
 And restart crate.
 
