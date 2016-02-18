@@ -20,7 +20,7 @@ Installation
 ============
 
 Releases are available via `JitPack
-<https://jitpack.io/#mfussenegger/crate-autocomplete/`_.
+<https://jitpack.io/#mfussenegger/crate-autocomplete/>`_.
 
 Download the JAR and put it into the ``plugins`` folder in your crate installation::
 
